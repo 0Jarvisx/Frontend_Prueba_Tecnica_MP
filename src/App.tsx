@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { ProtectedRouteWithPermission } from './components/auth/ProtectedRouteWithPermission';
+import { PublicRoute } from './components/auth/PublicRoute';
+import { Dashboard } from './pages/dashboard/Dashboard';
+import Login from './pages/auth/Login';
+import RequestReset from './pages/auth/RequestReset';
+import ResetPassword from './pages/auth/ResetPassword';
+import Profile from './pages/profile/Profile';
+import Settings from './pages/settings/Settings';
+import Forbidden from './pages/errors/Forbidden';
+import Unauthorized from './pages/errors/Unauthorized';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/request-reset"
+          element={
+            <PublicRoute>
+              <RequestReset />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <PublicRoute>
+              <ResetPassword />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRouteWithPermission permission="gestionar_sistema">
+              <Settings />
+            </ProtectedRouteWithPermission>
+          }
+        />
+        <Route path="/error/unauthorized" element={<Unauthorized />} />
+        <Route path="/error/forbidden" element={<Forbidden />} />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;
