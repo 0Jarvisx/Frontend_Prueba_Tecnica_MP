@@ -5,12 +5,14 @@ import {
   TeamOutlined,
   SafetyOutlined,
   FileTextOutlined,
+  UserSwitchOutlined,
 } from '@ant-design/icons';
 import UsersSettings from './tabs/UsersSettings';
 import RolesSettings from './tabs/RolesSettings';
 import AuditLogSettings from './tabs/AuditLogSettings';
+import AsignacionesSettings from './tabs/AsignacionesSettings';
 
-type TabKey = 'users' | 'roles' | 'audit';
+type TabKey = 'users' | 'roles' | 'asignaciones' | 'audit';
 
 const Settings = () => {
   const user = useAuthStore((state) => state.user);
@@ -31,6 +33,12 @@ const Settings = () => {
       label: 'Roles y Permisos',
       icon: SafetyOutlined,
       component: RolesSettings,
+    },
+    {
+      key: 'asignaciones' as TabKey,
+      label: 'Asignaciones',
+      icon: UserSwitchOutlined,
+      component: AsignacionesSettings,
     },
     {
       key: 'audit' as TabKey,

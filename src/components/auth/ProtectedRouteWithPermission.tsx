@@ -4,21 +4,30 @@ import { usePermissions } from '../../hooks/usePermissions';
 
 interface ProtectedRouteWithPermissionProps {
   children: React.ReactNode;
-  permission: string;
+  permission?: string;
+  permissionId?: number;
 }
 
 export const ProtectedRouteWithPermission = ({
   children,
-  permission
+  permission,
+  permissionId
 }: ProtectedRouteWithPermissionProps) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const { hasPermission } = usePermissions();
+  const { hasPermission, hasPermissionById } = usePermissions();
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!hasPermission(permission)) {
+  // Validar por ID (prioridad) o por nombre
+  const hasAccess = permissionId
+    ? hasPermissionById(permissionId)
+    : permission
+      ? hasPermission(permission)
+      : true;
+
+  if (!hasAccess) {
     return <Navigate to="/error/forbidden" replace />;
   }
 

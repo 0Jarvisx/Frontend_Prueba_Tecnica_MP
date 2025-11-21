@@ -22,7 +22,7 @@ export const DashboardSidebar = ({ userName, userRole }: DashboardSidebarProps) 
   const location = useLocation();
   const logout = useAuthStore((state) => state.logout);
   const [isOpen, setIsOpen] = useState(false);
-  const { hasPermission } = usePermissions();
+  const { hasPermissionById } = usePermissions();
 
   const menuItems = [
     {
@@ -35,13 +35,13 @@ export const DashboardSidebar = ({ userName, userRole }: DashboardSidebarProps) 
       title: 'Expedientes',
       icon: FileTextOutlined,
       path: '/expedientes',
-      show: true,
+      show: hasPermissionById(2), // ver expedientes
     },
     {
       title: 'Configuración',
       icon: SettingOutlined,
       path: '/settings',
-      show: hasPermission('gestionar_sistema'),
+      show: hasPermissionById(11), // gestionar_sistema
     },
   ];
 

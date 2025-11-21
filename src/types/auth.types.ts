@@ -3,6 +3,13 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface Permiso {
+  id_permiso: number;
+  nombre_permiso: string;
+  descripcion: string | null;
+  modulo: string | null;
+}
+
 export interface Usuario {
   id: number;
   nombre: string;
@@ -19,7 +26,7 @@ export interface Usuario {
         nombreRol: string;
         descripcion?: string;
       };
-  permisos: string[];
+  permisos: Permiso[];
 }
 
 export interface AuthResponse {

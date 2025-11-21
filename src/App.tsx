@@ -10,6 +10,9 @@ import Profile from './pages/profile/Profile';
 import Settings from './pages/settings/Settings';
 import Forbidden from './pages/errors/Forbidden';
 import Unauthorized from './pages/errors/Unauthorized';
+import { ExpedientesList } from './pages/expedientes/ExpedientesList';
+import { ExpedienteDetail } from './pages/expedientes/ExpedienteDetail';
+import { ExpedienteForm } from './pages/expedientes/ExpedienteForm';
 
 const App = () => {
   return (
@@ -58,8 +61,40 @@ const App = () => {
         <Route
           path="/settings"
           element={
-            <ProtectedRouteWithPermission permission="gestionar_sistema">
+            <ProtectedRouteWithPermission permissionId={11}>
               <Settings />
+            </ProtectedRouteWithPermission>
+          }
+        />
+        <Route
+          path="/expedientes"
+          element={
+            <ProtectedRoute>
+              <ExpedientesList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/expedientes/nuevo"
+          element={
+            <ProtectedRouteWithPermission permissionId={1}>
+              <ExpedienteForm />
+            </ProtectedRouteWithPermission>
+          }
+        />
+        <Route
+          path="/expedientes/:id"
+          element={
+            <ProtectedRoute>
+              <ExpedienteDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/expedientes/:id/editar"
+          element={
+            <ProtectedRouteWithPermission permissionId={3}>
+              <ExpedienteForm />
             </ProtectedRouteWithPermission>
           }
         />
